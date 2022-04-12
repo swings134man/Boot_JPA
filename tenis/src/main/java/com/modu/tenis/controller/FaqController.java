@@ -10,14 +10,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 @Controller
 @Slf4j
 @RequiredArgsConstructor
+@RequestMapping("faq/board/")
 public class FaqController {
 
     private final FaqService faqService;
 
-    @PostMapping("faq/board/v1/insert")
+    @PostMapping("v1/insert")
     public String insert(Faq faq) {
 
         System.out.println(faq.getTitle());
@@ -26,6 +29,13 @@ public class FaqController {
         faqService.insert(faq);
 
         return "index";
+    }
+
+    @GetMapping("v1/searchAll")
+    public List<Faq> searchAll() {
+
+        List<Faq> faq = faqService.searchAll();
+        return faq;
     }
 
 

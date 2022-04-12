@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -30,6 +32,11 @@ public class FaqService {
     public String excep() {
         String msg = "조회결과 없음.";
         return msg;
+    }
+
+    public List<Faq> searchAll() {
+        List<Faq> faq = faqRepository.findAll();
+        return faq;
     }
 
 }
