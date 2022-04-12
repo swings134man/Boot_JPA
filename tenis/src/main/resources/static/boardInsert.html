@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>게시물 작성</title>
+</head>
+<!--style-->
+<style>
+    .layout {
+        width : 500px;
+        margin: 0 auto;
+        margin-top: 40px;
+    }
+
+    .layout > form >input {
+        width : 100%;
+        box-sizing: border-box;
+    }
+
+    .layout > form >textarea {
+        width: 100%;
+        margin-top: 10px;
+        min-height: 300px;
+    }
+</style>
+
+<body>
+    <div class="layout">
+        <form action="faq/board/v1/insert" method="post">
+            <h2>제목</h2>
+            <input type="text" name="title">
+            <h3>내용</h3>
+            <textarea name="content"></textarea>
+            아이디<input type="text" name="custId">
+            <button type="submit" id="btn_write">작성</button>
+        </form>
+    </div>
+
+</body>
+</html>
