@@ -13,11 +13,16 @@
 <br style="color: red">
 
 <div class="retrieve">
-    <form action="api/faq/v1/retrieve">
-        <input type="text" name="contentNo">
+    <form action="api/faq/v1/retrieve" method="get">
+            <input type="text" name="contentNo">
         <button type="submit">검색!</button>
     </form>
 </div>
+<br style="color: red">
+
+<form action="faq/board/v1/searchAll" method="get">
+    <button type="submit">전체검색!</button>
+</form>
 
 </body>
 </html>

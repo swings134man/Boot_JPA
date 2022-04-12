@@ -2,11 +2,15 @@ package com.modu.tenis.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+/************
+* @info : Entity class
+* @name : Faq
+* @date : 2022/04/12 11:11 PM
+* @author : SeokJun Kang(swings134@gmail.com)
+* @version : 1.0.0
+************/
 @Entity
 @Data
 @NoArgsConstructor
@@ -16,7 +20,8 @@ public class Faq {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long contentNo;
+    @Column(name = "contentNo")
+    private Long contentNo;
 
     private String title;
 
