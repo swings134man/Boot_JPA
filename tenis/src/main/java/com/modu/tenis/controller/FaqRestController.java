@@ -3,6 +3,7 @@ package com.modu.tenis.controller;
 import com.modu.tenis.entity.Faq;
 import com.modu.tenis.service.FaqService;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
