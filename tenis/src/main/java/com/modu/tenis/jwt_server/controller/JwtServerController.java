@@ -25,6 +25,12 @@ public class JwtServerController {
 
     private final JwtServerService service;
 
+    /**
+     * Token 생성 Method : Login(과 같은역할을 수행함.)
+     * @param header
+     * @param inDTO
+     * @return ResponseEntity
+     */
     @PostMapping("v1/request")
     public ResponseEntity<JwtResponseDTO> loginRequest(@RequestHeader("auth-key") String header,
                                                        @RequestBody JwtRequestDTO inDTO
@@ -45,6 +51,20 @@ public class JwtServerController {
             result = ResponseEntity.status(403).body(jwtResponseDTO);
         }
         return result;
+    }// LoginRequest
+
+
+
+    @GetMapping("v1/getWithToken")
+    public String getWithToken(@RequestHeader("Authorization") String header, @RequestParam String param) {
+        String msg = "";
+        if(header != null) {
+            String result = service.getWithToken(header, param);
+            msg = result;
+            return msg;
+        }
+        return msg;
     }
 
-}
+
+}//class

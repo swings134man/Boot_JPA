@@ -1,8 +1,13 @@
 package com.modu.tenis.jwt_server.service;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.Claim;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.modu.tenis.jwt_server.domain.JwtRequestDTO;
 import com.modu.tenis.jwt_server.domain.JwtResponseDTO;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +35,8 @@ public class JwtServerService {
 
     private static String SECRET_KEY = Base64.getEncoder()
             .encodeToString("JwtServerAPItestSecretKEY".getBytes());
+
+    private static final Algorithm al = Algorithm.HMAC256(SECRET_KEY);
 
 
     public JwtResponseDTO loginRequest(String header, JwtRequestDTO inDTO) {
@@ -89,19 +96,53 @@ public class JwtServerService {
         claims.put("userPw", inDTO.getUserPw());
 
         // JWT Create
-        String access_token = Jwts.builder()
-                .setSubject(inDTO.getUserId())
-                .addClaims(claims)
-                .setIssuedAt(now)
-                .setExpiration(new Date((now.getTime() + Duration.ofSeconds(30).toMillis()))) // 만료시간 = 30초
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
-                .compact();
+//        String access_token = Jwts.builder()
+//                .setSubject(inDTO.getUserId())
+//                .addClaims(claims)
+//                .setIssuedAt(now)
+//                .setExpiration(new Date((now.getTime() + Duration.ofSeconds(30).toMillis()))) // 만료시간 = 30초
+//                .signWith(Algorithm.HMAC256(SECRET_KEY))
+//                .compact();
+
+        // JWT Create Refactor
+        String access_token = JWT.create()
+                .withSubject(inDTO.getUserId())
+                .withClaim("userId", inDTO.getUserId())
+                .withExpiresAt(new Date(System.currentTimeMillis() + (30 * 1000)))
+                .sign(al);
 
         result.put("access_token", access_token);
 
         // TODO : Refresh Token ADD
 
         return result;
-    }
+    }// generate Token
 
+// --------------------- Token 검증 및 로직
+
+    public String getWithToken(String header, String param) {
+        boolean check = false;
+        String[] s = header.split(" ");
+        String reqToken = s[1];
+
+        validateToken(reqToken);
+
+        return param;
+    }// get Method Main Logic
+
+    /**
+     * Token 검증 로직.
+     * @param token
+     */
+    private void validateToken(String token) {
+        // token 유효성 검증 & 만료기간
+        boolean tokenStatus = false;
+        try {
+            DecodedJWT verify = JWT.require(al)
+                    .build()
+                    .verify(token);
+        }catch (Exception e){
+            log.warn("토큰이 유효하지 않습니다. {}" , e.getMessage());
+        }
+    }
 }//class
